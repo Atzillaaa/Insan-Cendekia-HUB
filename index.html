@@ -196,7 +196,7 @@
                     <span class="section-number">02 — NEWSROOM</span>
                 </div>
 
-                <div class="news-grid">
+                <div class="news-grid" id="news-container">
 
                     <article class="news-card featured-news">
                         <div class="news-image news-image-one">
@@ -329,6 +329,110 @@
         </div>
 
     </footer>
+
+ 
+<script type="module">
+  // 1. Mengimpor Firebase SDK
+  import { initializeApp } from
+    "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+
+  import {
+    getFirestore,
+    collection,
+    getDocs,
+    query,
+    where
+  } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+  // 2. Konfigurasi Firebase milikmu
+  const firebaseConfig = {
+    apiKey: "AIzaSyD-Sa9r8UZWzosxkkzYa30N20vSY8UibvY",
+    authDomain: "insan-cendekia-hub.firebaseapp.com",
+    projectId: "insan-cendekia-hub",
+    storageBucket: "insan-cendekia-hub.firebasestorage.app",
+    messagingSenderId: "1003173757187",
+    appId: "1:1003173757187:web:448e259b3578ea8f24a936"
+  };
+
+  // 3. Menghubungkan website dengan Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // 4. Mengambil berita yang berstatus published
+  async function tampilkanBerita() {
+    const container = document.getElementById("news-container");
+
+    if (!container) {
+      console.error("Elemen news-container tidak ditemukan.");
+      return;
+    }
+
+    try {
+      const beritaQuery = query(
+        collection(db, "berita"),
+        where("status", "==", "published")
+      );
+
+      const snapshot = await getDocs(beritaQuery);
+
+      container.replaceChildren();
+
+      if (snapshot.empty) {
+        container.textContent = "Belum ada berita yang diterbitkan.";
+        return;
+      }
+
+      // Mengurutkan berita terbaru terlebih dahulu
+      const daftarBerita = snapshot.docs
+        .map(doc => doc.data())
+        .sort((a, b) => {
+          const waktuA = a.tanggal?.toMillis?.() ?? 0;
+          const waktuB = b.tanggal?.toMillis?.() ?? 0;
+          return waktuB - waktuA;
+        });
+
+      daftarBerita.forEach(berita => {
+        const kartu = document.createElement("article");
+        kartu.className = "news-card";
+
+        if (berita.gambar) {
+          const gambar = document.createElement("img");
+          gambar.src = berita.gambar;
+          gambar.alt = berita.judul || "Gambar berita";
+          gambar.className = "news-image";
+          kartu.appendChild(gambar);
+        }
+
+        const kategori = document.createElement("p");
+        kategori.className = "news-category";
+        kategori.textContent = berita.kategori || "Berita";
+
+        const judul = document.createElement("h3");
+        judul.textContent = berita.judul || "Tanpa judul";
+
+        const isi = document.createElement("p");
+        isi.className = "news-description";
+        isi.textContent = berita.isi || "";
+
+        const penulis = document.createElement("small");
+        penulis.textContent = "Oleh: " + (berita.penulis || "Redaksi");
+
+        kartu.append(kategori, judul, isi, penulis);
+        container.appendChild(kartu);
+      });
+
+    } catch (error) {
+      console.error("Gagal mengambil berita:", error);
+      container.textContent =
+        "Berita belum dapat dimuat. Silakan coba beberapa saat lagi.";
+    }
+  }
+
+  // 5. Jalankan fungsi
+  tampilkanBerita();
+</script>
+</body>
+</html>
 
 </body>
 </html>
