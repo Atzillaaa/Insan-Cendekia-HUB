@@ -408,7 +408,7 @@ a {
 
 .news-card {
     background: white;
-    border-radius: 12px;
+    border-radius: 15px;
     overflow: hidden;
     border: 1px solid var(--border);
     transition: 0.2s;
