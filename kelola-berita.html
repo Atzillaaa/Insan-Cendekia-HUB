@@ -1,0 +1,692 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kelola Berita | Insan Cendekia HUB</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #f3f6fb;
+  color: #26364d;
+}
+
+header {
+  background: #0b1830;
+  color: white;
+  padding: 20px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+header h2 { font-size: 20px; }
+
+header a {
+  color: #dce8f7;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+main {
+  max-width: 1100px;
+  margin: 35px auto;
+  padding: 0 20px;
+}
+
+.heading {
+  margin-bottom: 25px;
+}
+
+.heading h1 {
+  color: #173b68;
+  margin-bottom: 8px;
+}
+
+.heading p {
+  color: #77869b;
+  font-size: 14px;
+}
+
+.panel {
+  background: white;
+  border: 1px solid #e4eaf2;
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 25px;
+}
+
+.panel h2 {
+  font-size: 18px;
+  color: #173b68;
+  margin-bottom: 20px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 17px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field.full {
+  grid-column: 1 / -1;
+}
+
+label {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d8dee8;
+  border-radius: 7px;
+  font-size: 14px;
+  background: white;
+}
+
+textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+button {
+  border: none;
+  border-radius: 7px;
+  padding: 11px 16px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.primary {
+  background: #173b68;
+  color: white;
+}
+
+.secondary {
+  background: #e8edf5;
+  color: #173b68;
+}
+
+.danger {
+  background: #fce8e8;
+  color: #a72c2c;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.status {
+  font-size: 13px;
+  margin-top: 15px;
+  line-height: 1.5;
+}
+
+.news-item {
+  border: 1px solid #e4eaf2;
+  border-radius: 9px;
+  padding: 17px;
+  margin-bottom: 13px;
+}
+
+.news-item h3 {
+  color: #173b68;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.news-meta {
+  color: #77869b;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.news-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 13px;
+  flex-wrap: wrap;
+}
+
+.news-actions button {
+  font-size: 12px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 5px 9px;
+  border-radius: 20px;
+  background: #e8edf5;
+  color: #173b68;
+  font-size: 11px;
+  margin-bottom: 9px;
+}
+
+.badge.published {
+  background: #e1f4e9;
+  color: #216b3b;
+}
+
+.badge.draft {
+  background: #fff1d6;
+  color: #885b12;
+}
+
+#loading {
+  text-align: center;
+  padding: 60px 20px;
+  color: #77869b;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+@media(max-width: 650px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .field.full {
+    grid-column: auto;
+  }
+
+  header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .panel {
+    padding: 18px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h2>IC HUB | Manajemen Berita</h2>
+  <a href="dashboard.html">← Kembali ke Dashboard</a>
+</header>
+
+<div id="loading">Memeriksa akun...</div>
+
+<main id="app" hidden>
+
+  <section class="heading">
+    <h1>Manajemen Berita</h1>
+    <p>Kelola publikasi informasi dan kegiatan Insan Cendekia HUB.</p>
+  </section>
+
+  <section class="panel">
+    <h2 id="form-title">Tambah Berita Baru</h2>
+
+    <form id="news-form">
+
+      <div class="form-grid">
+
+        <div class="field full">
+          <label for="judul">Judul Berita</label>
+          <input id="judul" type="text"
+            placeholder="Masukkan judul berita" required>
+        </div>
+
+        <div class="field">
+          <label for="kategori">Kategori</label>
+          <select id="kategori" required>
+            <option value="">Pilih kategori</option>
+            <option value="Kegiatan">Kegiatan</option>
+            <option value="Prestasi">Prestasi</option>
+            <option value="Pengumuman">Pengumuman</option>
+            <option value="Pendidikan">Pendidikan</option>
+            <option value="Informasi">Informasi</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="organisasi">Organisasi / Sumber</label>
+          <select id="organisasi" required>
+            <option value="Sekolah">Sekolah</option>
+            <option value="OSIS">OSIS</option>
+            <option value="Pramuka">Pramuka</option>
+            <option value="PMR">PMR</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="penulis">Nama Penulis</label>
+          <input id="penulis" type="text"
+            placeholder="Nama penulis" required>
+        </div>
+
+        <div class="field">
+          <label for="status">Status Publikasi</label>
+          <select id="status" required>
+            <option value="draft">Draf</option>
+            <option value="published">Terbitkan</option>
+          </select>
+        </div>
+
+        <div class="field full">
+          <label for="gambar">URL Gambar (opsional)</label>
+          <input id="gambar" type="url"
+            placeholder="https://contoh.com/gambar.jpg">
+        </div>
+
+        <div class="field full">
+          <label for="isi">Isi Berita</label>
+          <textarea id="isi"
+            placeholder="Tuliskan isi berita secara lengkap..."
+            required></textarea>
+        </div>
+
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="primary" id="save-button">
+          Simpan Berita
+        </button>
+
+        <button type="button" class="secondary"
+          id="cancel-button" hidden>
+          Batal Edit
+        </button>
+      </div>
+
+      <p id="form-message" class="status" role="status"></p>
+
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2>Daftar Berita</h2>
+    <p id="list-message" class="status">Memuat berita...</p>
+    <div id="news-list"></div>
+  </section>
+
+</main>
+
+<script type="module">
+
+import { initializeApp } from
+  "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut
+} from
+  "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  serverTimestamp
+} from
+  "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+// Gunakan konfigurasi Firebase yang sama dengan file sebelumnya
+const firebaseConfig = {
+  apiKey: "AIzaSyD-Sa9r8UZWzosxkkzYa30N20vSY8UibvY",
+  authDomain: "insan-cendekia-hub.firebaseapp.com",
+  projectId: "insan-cendekia-hub",
+  storageBucket: "insan-cendekia-hub.firebasestorage.app",
+  messagingSenderId: "1003173757187",
+  appId: "1:1003173757187:web:448e259b3578ea8f24a936"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const loading = document.getElementById("loading");
+const application = document.getElementById("app");
+const form = document.getElementById("news-form");
+const message = document.getElementById("form-message");
+const listMessage = document.getElementById("list-message");
+const newsList = document.getElementById("news-list");
+
+let currentUser = null;
+let currentProfile = null;
+let editingId = null;
+
+// Pemeriksaan akun
+onAuthStateChanged(auth, async (user) => {
+
+  if (!user) {
+    window.location.replace("login.html");
+    return;
+  }
+
+  try {
+    const profileRef = doc(db, "pengguna", user.uid);
+    const profileSnapshot = await getDoc(profileRef);
+
+    if (!profileSnapshot.exists()) {
+      await signOut(auth);
+      window.location.replace("login.html");
+      return;
+    }
+
+    const profile = profileSnapshot.data();
+
+    if (
+      profile.aktif !== true ||
+      !["admin", "redaksi", "organisasi"].includes(profile.role)
+    ) {
+      await signOut(auth);
+      window.location.replace("login.html");
+      return;
+    }
+
+    currentUser = user;
+    currentProfile = profile;
+
+    // Admin organisasi hanya boleh mengelola organisasinya
+    if (profile.role === "organisasi") {
+      const organization = document.getElementById("organisasi");
+      organization.value = profile.organisasi;
+      organization.disabled = true;
+
+      document.getElementById("status").value = "published";
+      document.getElementById("status").disabled = true;
+    }
+
+    document.getElementById("penulis").value =
+      profile.nama || "";
+
+    loading.hidden = true;
+    application.hidden = false;
+
+    await loadNews();
+
+  } catch (error) {
+    console.error(error);
+    loading.textContent =
+      "Gagal memeriksa akun. Periksa koneksi dan Security Rules.";
+  }
+});
+
+// Membaca berita dari Firestore
+async function loadNews() {
+
+  newsList.replaceChildren();
+  listMessage.textContent = "Memuat berita...";
+
+  try {
+    let newsQuery;
+
+    if (currentProfile.role === "organisasi") {
+      newsQuery = query(
+        collection(db, "berita"),
+        where("organisasi", "==", currentProfile.organisasi)
+      );
+    } else {
+      newsQuery = collection(db, "berita");
+    }
+
+    const snapshot = await getDocs(newsQuery);
+
+    const articles = snapshot.docs.map(item => ({
+      id: item.id,
+      ...item.data()
+    }));
+
+    articles.sort((a, b) => {
+      const dateA = a.tanggal?.toMillis?.() || 0;
+      const dateB = b.tanggal?.toMillis?.() || 0;
+      return dateB - dateA;
+    });
+
+    listMessage.textContent = articles.length
+      ? "Total berita: " + articles.length
+      : "Belum ada berita.";
+
+    articles.forEach(article => {
+      renderArticle(article);
+    });
+
+  } catch (error) {
+    console.error("Gagal membaca berita:", error);
+    listMessage.textContent =
+      "Gagal mengambil berita. Periksa Security Rules dan koneksi.";
+  }
+}
+
+// Membuat tampilan kartu berita
+function renderArticle(article) {
+
+  const card = document.createElement("article");
+  card.className = "news-item";
+
+  const badge = document.createElement("span");
+  badge.className = "badge " +
+    (article.status === "published" ? "published" : "draft");
+
+  badge.textContent =
+    article.status === "published" ? "DITERBITKAN" : "DRAF";
+
+  const title = document.createElement("h3");
+  title.textContent = article.judul || "Tanpa judul";
+
+  const meta = document.createElement("p");
+  meta.className = "news-meta";
+  meta.textContent =
+    "Kategori: " + (article.kategori || "-") +
+    " | Organisasi: " + (article.organisasi || "-") +
+    " | Penulis: " + (article.penulis || "-");
+
+  const actions = document.createElement("div");
+  actions.className = "news-actions";
+
+  const editButton = document.createElement("button");
+  editButton.className = "secondary";
+  editButton.textContent = "Edit";
+  editButton.addEventListener("click", () => {
+    editArticle(article);
+  });
+
+  actions.appendChild(editButton);
+
+  // Penghapusan tersedia untuk admin dan redaksi
+  if (
+    currentProfile.role === "admin" ||
+    currentProfile.role === "redaksi"
+  ) {
+    const deleteButton = document.createElement("button");
+    deleteButton.className = "danger";
+    deleteButton.textContent = "Hapus";
+
+    deleteButton.addEventListener("click", () => {
+      removeArticle(article.id);
+    });
+
+    actions.appendChild(deleteButton);
+  }
+
+  card.append(badge, title, meta, actions);
+  newsList.appendChild(card);
+}
+
+// Menambah atau memperbarui berita
+form.addEventListener("submit", async (event) => {
+
+  event.preventDefault();
+
+  const saveButton = document.getElementById("save-button");
+  saveButton.disabled = true;
+  message.textContent = "Menyimpan berita...";
+
+  const organization =
+    currentProfile.role === "organisasi"
+      ? currentProfile.organisasi
+      : document.getElementById("organisasi").value;
+
+  const status =
+    currentProfile.role === "organisasi"
+      ? "published"
+      : document.getElementById("status").value;
+
+  const articleData = {
+    judul: document.getElementById("judul").value.trim(),
+    kategori: document.getElementById("kategori").value,
+    organisasi: organization,
+    penulis: document.getElementById("penulis").value.trim(),
+    gambar: document.getElementById("gambar").value.trim(),
+    isi: document.getElementById("isi").value.trim(),
+    status: status
+  };
+
+  try {
+
+    if (editingId) {
+
+      await updateDoc(doc(db, "berita", editingId), {
+        ...articleData,
+        diperbaruiPada: serverTimestamp()
+      });
+
+      message.textContent = "Berita berhasil diperbarui.";
+
+    } else {
+
+      await addDoc(collection(db, "berita"), {
+        ...articleData,
+        tanggal: serverTimestamp()
+      });
+
+      message.textContent = "Berita berhasil disimpan.";
+
+    }
+
+    resetForm();
+    await loadNews();
+
+  } catch (error) {
+    console.error("Gagal menyimpan berita:", error);
+    message.textContent =
+      "Gagal menyimpan. Periksa izin akun dan kelengkapan data.";
+  }
+
+  saveButton.disabled = false;
+});
+
+// Mengisi formulir untuk proses edit
+function editArticle(article) {
+
+  editingId = article.id;
+
+  document.getElementById("form-title").textContent =
+    "Edit Berita";
+
+  document.getElementById("judul").value =
+    article.judul || "";
+
+  document.getElementById("kategori").value =
+    article.kategori || "";
+
+  document.getElementById("organisasi").value =
+    article.organisasi || "Sekolah";
+
+  document.getElementById("penulis").value =
+    article.penulis || "";
+
+  document.getElementById("gambar").value =
+    article.gambar || "";
+
+  document.getElementById("isi").value =
+    article.isi || "";
+
+  document.getElementById("status").value =
+    article.status || "draft";
+
+  document.getElementById("save-button").textContent =
+    "Perbarui Berita";
+
+  document.getElementById("cancel-button").hidden = false;
+
+  message.textContent = "Mode edit berita.";
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// Menghapus berita
+async function removeArticle(id) {
+
+  const confirmed = confirm(
+    "Apakah kamu yakin ingin menghapus berita ini?"
+  );
+
+  if (!confirmed) return;
+
+  try {
+    await deleteDoc(doc(db, "berita", id));
+
+    message.textContent = "Berita berhasil dihapus.";
+    await loadNews();
+
+  } catch (error) {
+    console.error("Gagal menghapus:", error);
+    message.textContent =
+      "Berita gagal dihapus. Periksa hak akses akun.";
+  }
+}
+
+// Mengembalikan formulir ke kondisi awal
+function resetForm() {
+
+  form.reset();
+  editingId = null;
+
+  document.getElementById("form-title").textContent =
+    "Tambah Berita Baru";
+
+  document.getElementById("save-button").textContent =
+    "Simpan Berita";
+
+  document.getElementById("cancel-button").hidden = true;
+
+  if (currentProfile?.role === "organisasi") {
+    document.getElementById("organisasi").value =
+      currentProfile.organisasi;
+
+    document.getElementById("status").value = "published";
+  }
+}
+
+document.getElementById("cancel-button")
+  .addEventListener("click", resetForm);
+
+</script>
+
+</body>
+</html>
