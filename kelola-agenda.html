@@ -1,0 +1,645 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kelola Agenda | IC HUB</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #f3f6fb;
+  color: #26364d;
+}
+
+header {
+  background: #0b1830;
+  color: white;
+  padding: 20px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header a {
+  color: #dce8f7;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+main {
+  max-width: 1100px;
+  margin: 35px auto;
+  padding: 0 20px;
+}
+
+.heading {
+  margin-bottom: 25px;
+}
+
+.heading h1 {
+  color: #173b68;
+  margin-bottom: 8px;
+}
+
+.heading p {
+  color: #77869b;
+  font-size: 14px;
+}
+
+.panel {
+  background: white;
+  padding: 25px;
+  border: 1px solid #e4eaf2;
+  border-radius: 12px;
+  margin-bottom: 25px;
+}
+
+.panel h2 {
+  color: #173b68;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 17px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+label {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d8dee8;
+  border-radius: 7px;
+  font-size: 14px;
+  background: white;
+}
+
+textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+button {
+  padding: 11px 16px;
+  border: 0;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.primary {
+  background: #173b68;
+  color: white;
+}
+
+.secondary {
+  background: #e8edf5;
+  color: #173b68;
+}
+
+.danger {
+  background: #fce8e8;
+  color: #a72c2c;
+}
+
+.actions {
+  display: flex;
+  gap: 9px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.agenda-item {
+  padding: 18px;
+  border: 1px solid #e4eaf2;
+  border-radius: 9px;
+  margin-bottom: 13px;
+}
+
+.agenda-item h3 {
+  color: #173b68;
+  margin: 8px 0;
+  font-size: 16px;
+}
+
+.agenda-item p {
+  font-size: 13px;
+  color: #77869b;
+  line-height: 1.8;
+}
+
+.badge {
+  display: inline-block;
+  padding: 5px 9px;
+  border-radius: 20px;
+  background: #fff1d6;
+  color: #885b12;
+  font-size: 11px;
+}
+
+.published {
+  background: #e1f4e9;
+  color: #216b3b;
+}
+
+.item-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 13px;
+}
+
+.item-actions button {
+  font-size: 12px;
+}
+
+.status-message {
+  font-size: 13px;
+  line-height: 1.5;
+  margin-top: 13px;
+}
+
+#loading {
+  padding: 60px 20px;
+  text-align: center;
+  color: #77869b;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+@media(max-width: 650px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .full {
+    grid-column: auto;
+  }
+
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .panel {
+    padding: 18px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h2>IC HUB | Manajemen Agenda</h2>
+  <a href="dashboard.html">← Kembali ke Dashboard</a>
+</header>
+
+<div id="loading">Memeriksa akun...</div>
+
+<main id="app" hidden>
+
+  <section class="heading">
+    <h1>Manajemen Agenda</h1>
+    <p>Kelola jadwal dan informasi kegiatan sekolah.</p>
+  </section>
+
+  <section class="panel">
+    <h2 id="form-title">Tambah Agenda Baru</h2>
+
+    <form id="agenda-form">
+
+      <div class="form-grid">
+
+        <div class="field full">
+          <label for="nama">Nama Kegiatan</label>
+          <input id="nama" required
+            placeholder="Contoh: Pelantikan Pengurus OSIS">
+        </div>
+
+        <div class="field">
+          <label for="tanggal">Tanggal</label>
+          <input type="date" id="tanggal" required>
+        </div>
+
+        <div class="field">
+          <label for="waktu">Waktu</label>
+          <input type="time" id="waktu" required>
+        </div>
+
+        <div class="field">
+          <label for="lokasi">Lokasi</label>
+          <input id="lokasi" required
+            placeholder="Contoh: Aula Madrasah">
+        </div>
+
+        <div class="field">
+          <label for="penyelenggara">Penyelenggara</label>
+          <select id="penyelenggara" required>
+            <option value="">Pilih penyelenggara</option>
+            <option value="Sekolah">Sekolah</option>
+            <option value="OSIS">OSIS</option>
+            <option value="Pramuka">Pramuka</option>
+            <option value="PMR">PMR</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="status">Status</label>
+          <select id="status" required>
+            <option value="draft">Draf</option>
+            <option value="published">Terbitkan</option>
+          </select>
+        </div>
+
+        <div class="field full">
+          <label for="deskripsi">Deskripsi Kegiatan</label>
+          <textarea id="deskripsi"
+            placeholder="Jelaskan informasi kegiatan..."
+            required></textarea>
+        </div>
+
+      </div>
+
+      <div class="actions">
+        <button class="primary" id="save-button" type="submit">
+          Simpan Agenda
+        </button>
+
+        <button class="secondary" id="cancel-button"
+          type="button" hidden>
+          Batal Edit
+        </button>
+      </div>
+
+      <p id="form-message" class="status-message"></p>
+
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2>Daftar Agenda</h2>
+    <p id="list-message" class="status-message">
+      Memuat agenda...
+    </p>
+    <div id="agenda-list"></div>
+  </section>
+
+</main>
+
+<script type="module">
+
+import { initializeApp } from
+  "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut
+} from
+  "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  collection,
+  getDocs,
+  query,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  serverTimestamp,
+  Timestamp
+} from
+  "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+// Gunakan konfigurasi Firebase milikmu
+const firebaseConfig = {
+  apiKey: "AIzaSyD-Sa9r8UZWzosxkkzYa30N20vSY8UibvY",
+  authDomain: "insan-cendekia-hub.firebaseapp.com",
+  projectId: "insan-cendekia-hub",
+  storageBucket: "insan-cendekia-hub.firebasestorage.app",
+  messagingSenderId: "1003173757187",
+  appId: "1:1003173757187:web:448e259b3578ea8f24a936"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const loading = document.getElementById("loading");
+const application = document.getElementById("app");
+const form = document.getElementById("agenda-form");
+const agendaList = document.getElementById("agenda-list");
+
+let editingId = null;
+let currentUser = null;
+let currentProfile = null;
+
+// Pemeriksaan login dan hak akses
+onAuthStateChanged(auth, async (user) => {
+
+  if (!user) {
+    window.location.replace("login.html");
+    return;
+  }
+
+  try {
+    const profileRef = doc(db, "pengguna", user.uid);
+    const profileSnapshot = await getDoc(profileRef);
+
+    if (!profileSnapshot.exists()) {
+      await signOut(auth);
+      window.location.replace("login.html");
+      return;
+    }
+
+    const profile = profileSnapshot.data();
+
+    if (
+      profile.aktif !== true ||
+      !["admin", "redaksi"].includes(profile.role)
+    ) {
+      await signOut(auth);
+      window.location.replace("login.html");
+      return;
+    }
+
+    currentUser = user;
+    currentProfile = profile;
+
+    loading.hidden = true;
+    application.hidden = false;
+
+    await loadAgendas();
+
+  } catch (error) {
+    console.error(error);
+    loading.textContent =
+      "Gagal memeriksa akun. Periksa koneksi Firebase.";
+  }
+});
+
+// Membaca agenda
+async function loadAgendas() {
+
+  agendaList.replaceChildren();
+
+  const message = document.getElementById("list-message");
+  message.textContent = "Memuat agenda...";
+
+  try {
+
+    const snapshot = await getDocs(collection(db, "agenda"));
+
+    const agendas = snapshot.docs.map(item => ({
+      id: item.id,
+      ...item.data()
+    }));
+
+    agendas.sort((a, b) => {
+      const dateA = a.tanggal?.toMillis?.() || 0;
+      const dateB = b.tanggal?.toMillis?.() || 0;
+      return dateA - dateB;
+    });
+
+    message.textContent = agendas.length
+      ? "Total agenda: " + agendas.length
+      : "Belum ada agenda.";
+
+    agendas.forEach(renderAgenda);
+
+  } catch (error) {
+    console.error(error);
+    message.textContent =
+      "Gagal membaca agenda. Periksa Security Rules.";
+  }
+}
+
+// Membuat kartu agenda
+function renderAgenda(agenda) {
+
+  const card = document.createElement("article");
+  card.className = "agenda-item";
+
+  const badge = document.createElement("span");
+  badge.className = "badge " +
+    (agenda.status === "published" ? "published" : "");
+
+  badge.textContent =
+    agenda.status === "published" ? "DITERBITKAN" : "DRAF";
+
+  const title = document.createElement("h3");
+  title.textContent = agenda.nama || "Tanpa nama";
+
+  const date = document.createElement("p");
+  const dateValue = agenda.tanggal?.toDate?.();
+
+  date.textContent = dateValue
+    ? "Tanggal: " + dateValue.toLocaleDateString("id-ID")
+    : "Tanggal: -";
+
+  const detail = document.createElement("p");
+  detail.textContent =
+    "Waktu: " + (agenda.waktu || "-") +
+    " | Lokasi: " + (agenda.lokasi || "-") +
+    " | Penyelenggara: " + (agenda.penyelenggara || "-");
+
+  const description = document.createElement("p");
+  description.textContent = agenda.deskripsi || "";
+
+  const actions = document.createElement("div");
+  actions.className = "item-actions";
+
+  const edit = document.createElement("button");
+  edit.className = "secondary";
+  edit.textContent = "Edit";
+  edit.addEventListener("click", () => editAgenda(agenda));
+
+  const remove = document.createElement("button");
+  remove.className = "danger";
+  remove.textContent = "Hapus";
+  remove.addEventListener("click", () => removeAgenda(agenda.id));
+
+  actions.append(edit, remove);
+  card.append(badge, title, date, detail, description, actions);
+  agendaList.appendChild(card);
+}
+
+// Menyimpan atau memperbarui agenda
+form.addEventListener("submit", async (event) => {
+
+  event.preventDefault();
+
+  const button = document.getElementById("save-button");
+  const message = document.getElementById("form-message");
+
+  button.disabled = true;
+  message.textContent = "Menyimpan agenda...";
+
+  const dateValue = document.getElementById("tanggal").value;
+
+  const agendaData = {
+    nama: document.getElementById("nama").value.trim(),
+    tanggal: Timestamp.fromDate(
+      new Date(dateValue + "T00:00:00")
+    ),
+    waktu: document.getElementById("waktu").value,
+    lokasi: document.getElementById("lokasi").value.trim(),
+    penyelenggara:
+      document.getElementById("penyelenggara").value,
+    deskripsi:
+      document.getElementById("deskripsi").value.trim(),
+    status: document.getElementById("status").value
+  };
+
+  try {
+
+    if (editingId) {
+
+      await updateDoc(doc(db, "agenda", editingId), {
+        ...agendaData,
+        diperbaruiPada: serverTimestamp()
+      });
+
+      message.textContent = "Agenda berhasil diperbarui.";
+
+    } else {
+
+      await addDoc(collection(db, "agenda"), {
+        ...agendaData,
+        dibuatPada: serverTimestamp()
+      });
+
+      message.textContent = "Agenda berhasil disimpan.";
+    }
+
+    resetForm();
+    await loadAgendas();
+
+  } catch (error) {
+    console.error(error);
+    message.textContent =
+      "Gagal menyimpan agenda. Periksa hak akses dan data.";
+  }
+
+  button.disabled = false;
+});
+
+// Mengisi formulir untuk edit
+function editAgenda(agenda) {
+
+  editingId = agenda.id;
+
+  document.getElementById("form-title").textContent =
+    "Edit Agenda";
+
+  document.getElementById("nama").value =
+    agenda.nama || "";
+
+  const dateValue = agenda.tanggal?.toDate?.();
+
+  if (dateValue) {
+    const year = dateValue.getFullYear();
+    const month = String(dateValue.getMonth() + 1).padStart(2, "0");
+    const day = String(dateValue.getDate()).padStart(2, "0");
+
+    document.getElementById("tanggal").value =
+      `${year}-${month}-${day}`;
+  }
+
+  document.getElementById("waktu").value =
+    agenda.waktu || "";
+
+  document.getElementById("lokasi").value =
+    agenda.lokasi || "";
+
+  document.getElementById("penyelenggara").value =
+    agenda.penyelenggara || "";
+
+  document.getElementById("deskripsi").value =
+    agenda.deskripsi || "";
+
+  document.getElementById("status").value =
+    agenda.status || "draft";
+
+  document.getElementById("save-button").textContent =
+    "Perbarui Agenda";
+
+  document.getElementById("cancel-button").hidden = false;
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// Menghapus agenda
+async function removeAgenda(id) {
+
+  if (!confirm("Yakin ingin menghapus agenda ini?")) {
+    return;
+  }
+
+  try {
+
+    await deleteDoc(doc(db, "agenda", id));
+
+    document.getElementById("form-message").textContent =
+      "Agenda berhasil dihapus.";
+
+    await loadAgendas();
+
+  } catch (error) {
+    console.error(error);
+    document.getElementById("form-message").textContent =
+      "Gagal menghapus agenda.";
+  }
+}
+
+// Mengembalikan formulir
+function resetForm() {
+
+  form.reset();
+  editingId = null;
+
+  document.getElementById("form-title").textContent =
+    "Tambah Agenda Baru";
+
+  document.getElementById("save-button").textContent =
+    "Simpan Agenda";
+
+  document.getElementById("cancel-button").hidden = true;
+}
+
+document.getElementById("cancel-button")
+  .addEventListener("click", resetForm);
+
+</script>
+
+</body>
+</html>
