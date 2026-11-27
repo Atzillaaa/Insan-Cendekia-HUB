@@ -4,61 +4,330 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Insan Cendekia HUB</title>
+
+    <title>Insan Cendekia HUB | Portal Informasi Sekolah</title>
+
+    <meta name="description" content="Portal informasi, berita, dan dokumentasi organisasi MAN Insan Cendekia Kendari.">
 
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-    <header>
-        <h1>INSAN CENDEKIA HUB</h1>
-        <p>School Organization & News Portal</p>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="container navbar">
+
+            <a href="index.html" class="brand">
+                <div class="brand-icon">IC</div>
+                <div>
+                    <h2>Insan Cendekia <span>HUB</span></h2>
+                    <small>STUDENT INFORMATION PORTAL</small>
+                </div>
+            </a>
+
+            <nav class="nav-links">
+                <a href="#home">Beranda</a>
+                <a href="#organisasi">Organisasi</a>
+                <a href="#berita">Berita</a>
+                <a href="#agenda">Agenda</a>
+                <a href="#tentang">Tentang</a>
+            </nav>
+
+            <a href="#berita" class="nav-button">Jelajahi Berita ↗</a>
+
+        </div>
     </header>
 
-    <nav>
-        <a href="#">Beranda</a>
-        <a href="#">Organisasi</a>
-        <a href="#">Berita</a>
-        <a href="#">Agenda</a>
-        <a href="#">Galeri</a>
-        <a href="#">Tentang Kami</a>
-    </nav>
 
+    <!-- HERO -->
     <main>
-        <h2>Selamat Datang di Insan Cendekia HUB</h2>
-        <p>
-            Pusat informasi, berita, dan dokumentasi
-            kegiatan organisasi MAN Insan Cendekia Kendari.
-        </p>
 
-        <section>
-            <h2>Organisasi Kami</h2>
+        <section class="hero" id="home">
+            <div class="container hero-content">
 
-            <article>
-                <h3>OSIS</h3>
-                <p>Informasi dan kegiatan Organisasi Siswa Intra Sekolah.</p>
-            </article>
+                <div class="hero-text">
 
-            <article>
-                <h3>Pramuka</h3>
-                <p>Informasi kegiatan kepramukaan.</p>
-            </article>
+                    <div class="eyebrow">
+                        <span class="live-dot"></span>
+                        SCHOOL INFORMATION CENTER
+                    </div>
 
-            <article>
-                <h3>PMR</h3>
-                <p>Informasi kegiatan Palang Merah Remaja.</p>
-            </article>
+                    <h1>
+                        One School.<br>
+                        <span>Many Stories.</span><br>
+                        One Community.
+                    </h1>
+
+                    <p>
+                        Ruang informasi, kolaborasi, dan publikasi
+                        kegiatan siswa MAN Insan Cendekia Kendari.
+                        Temukan cerita, gagasan, dan perkembangan
+                        organisasi sekolah dalam satu tempat.
+                    </p>
+
+                    <div class="hero-actions">
+                        <a href="#berita" class="primary-button">
+                            Baca Berita ↗
+                        </a>
+
+                        <a href="#organisasi" class="secondary-button">
+                            Kenali Organisasi
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="hero-visual">
+                    <div class="visual-card">
+                        <span class="visual-label">OUR COMMUNITY</span>
+
+                        <div class="visual-symbol">IC</div>
+
+                        <h2>Connected<br>by Ideas.</h2>
+
+                        <p>
+                            Information · Collaboration · Inspiration
+                        </p>
+
+                        <div class="visual-bottom">
+                            <span>MAN INSAN CENDEKIA KENDARI</span>
+                            <span>01 / 2026</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </section>
 
-        <section>
-            <h2>Berita Terbaru</h2>
-            <p>Berita dan informasi terbaru sekolah akan ditampilkan di sini.</p>
+
+        <!-- ORGANIZATIONS -->
+        <section class="section" id="organisasi">
+
+            <div class="container">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="section-label">OUR COMMUNITY</span>
+                        <h2>Explore Our Organizations</h2>
+                        <p>
+                            Mengenal organisasi, kegiatan, dan kontribusi
+                            siswa dalam lingkungan madrasah.
+                        </p>
+                    </div>
+
+                    <span class="section-number">01 — ORGANIZATIONS</span>
+                </div>
+
+                <div class="organization-grid">
+
+                    <article class="organization-card osis">
+                        <div class="org-top">
+                            <span class="org-icon">O</span>
+                            <span class="org-category">STUDENT COUNCIL</span>
+                        </div>
+
+                        <h3>OSIS</h3>
+
+                        <p>
+                            Wadah kepemimpinan, aspirasi, kreativitas,
+                            dan pengembangan potensi siswa.
+                        </p>
+
+                        <a href="organisasi/osis.html">Explore OSIS ↗</a>
+                    </article>
+
+
+                    <article class="organization-card pramuka">
+                        <div class="org-top">
+                            <span class="org-icon">P</span>
+                            <span class="org-category">SCOUT MOVEMENT</span>
+                        </div>
+
+                        <h3>Pramuka</h3>
+
+                        <p>
+                            Ruang pembentukan karakter, kedisiplinan,
+                            keterampilan, dan jiwa kepemimpinan.
+                        </p>
+
+                        <a href="organisasi/pramuka.html">Explore Pramuka ↗</a>
+                    </article>
+
+
+                    <article class="organization-card pmr">
+                        <div class="org-top">
+                            <span class="org-icon">+</span>
+                            <span class="org-category">YOUTH RED CROSS</span>
+                        </div>
+
+                        <h3>PMR</h3>
+
+                        <p>
+                            Mengembangkan kepedulian, keterampilan
+                            kemanusiaan, dan semangat kerelawanan.
+                        </p>
+
+                        <a href="organisasi/pmr.html">Explore PMR ↗</a>
+                    </article>
+
+                </div>
+
+            </div>
+
         </section>
+
+
+        <!-- NEWS -->
+        <section class="section news-section" id="berita">
+
+            <div class="container">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="section-label">LATEST UPDATES</span>
+                        <h2>Stories & News</h2>
+                        <p>
+                            Informasi dan cerita terbaru dari lingkungan
+                            MAN Insan Cendekia Kendari.
+                        </p>
+                    </div>
+
+                    <span class="section-number">02 — NEWSROOM</span>
+                </div>
+
+                <div class="news-grid">
+
+                    <article class="news-card featured-news">
+                        <div class="news-image news-image-one">
+                            <span>FEATURED STORY</span>
+                        </div>
+
+                        <div class="news-content">
+                            <span class="news-category">SEKOLAH</span>
+
+                            <h3>
+                                Selamat Datang di Insan Cendekia HUB
+                            </h3>
+
+                            <p>
+                                Satu ruang digital untuk menghubungkan
+                                informasi, organisasi, dan aktivitas
+                                siswa dalam lingkungan madrasah.
+                            </p>
+
+                            <div class="news-meta">
+                                <span>Redaksi HUB</span>
+                                <span>27 November 2026</span>
+                            </div>
+                        </div>
+                    </article>
+
+
+                    <article class="news-card">
+                        <div class="news-image news-image-two">
+                            <span>ORGANIZATION</span>
+                        </div>
+
+                        <div class="news-content">
+                            <span class="news-category">OSIS</span>
+
+                            <h3>
+                                Ruang Aspirasi dan Kreativitas Siswa
+                            </h3>
+
+                            <p>
+                                Informasi kegiatan dan program
+                                organisasi siswa.
+                            </p>
+
+                            <div class="news-meta">
+                                <span>OSIS</span>
+                                <span>Coming Soon</span>
+                            </div>
+                        </div>
+                    </article>
+
+
+                    <article class="news-card">
+                        <div class="news-image news-image-three">
+                            <span>COMMUNITY</span>
+                        </div>
+
+                        <div class="news-content">
+                            <span class="news-category">PRAMUKA & PMR</span>
+
+                            <h3>
+                                Kolaborasi dan Pengembangan Potensi
+                            </h3>
+
+                            <p>
+                                Dokumentasi dan informasi kegiatan
+                                organisasi siswa.
+                            </p>
+
+                            <div class="news-meta">
+                                <span>Organisasi</span>
+                                <span>Coming Soon</span>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- AGENDA -->
+        <section class="section" id="agenda">
+
+            <div class="container agenda-box">
+
+                <div>
+                    <span class="section-label">WHAT'S HAPPENING?</span>
+                    <h2>School Agenda</h2>
+
+                    <p>
+                        Temukan informasi kegiatan, perlombaan,
+                        program organisasi, dan agenda sekolah.
+                    </p>
+                </div>
+
+                <a href="#tentang" class="primary-button">
+                    Explore Activities ↗
+                </a>
+
+            </div>
+
+        </section>
+
     </main>
 
-    <footer>
-        <p>© 2026 Insan Cendekia HUB</p>
-        <p>MAN Insan Cendekia Kota Kendari</p>
+
+    <!-- FOOTER -->
+    <footer class="footer" id="tentang">
+
+        <div class="container footer-content">
+
+            <div>
+                <h2>Insan Cendekia <span>HUB.</span></h2>
+
+                <p>
+                    A connected space for information,
+                    collaboration, and student creativity.
+                </p>
+            </div>
+
+            <div class="footer-info">
+                <strong>MAN Insan Cendekia Kota Kendari</strong>
+                <p>School Organization & News Portal</p>
+                <p>© 2026 Insan Cendekia HUB.</p>
+            </div>
+
+        </div>
+
     </footer>
 
 </body>
