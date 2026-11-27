@@ -1,0 +1,432 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Insan Cendekia HUB</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f3f6fb;
+      color: #26364d;
+    }
+
+    .layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 245px;
+      background: #0b1830;
+      color: white;
+      padding: 28px 20px;
+      flex-shrink: 0;
+    }
+
+    .brand {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 42px;
+      line-height: 1.4;
+    }
+
+    .brand span {
+      display: block;
+      color: #8daed8;
+      font-size: 12px;
+      font-weight: normal;
+    }
+
+    .menu-label {
+      color: #91a2bb;
+      font-size: 11px;
+      text-transform: uppercase;
+      margin: 25px 0 12px;
+      letter-spacing: 1px;
+    }
+
+    .menu a {
+      display: block;
+      color: #d5dfed;
+      text-decoration: none;
+      padding: 12px;
+      border-radius: 7px;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .menu a.active,
+    .menu a:hover {
+      background: #203c63;
+      color: white;
+    }
+
+    .main {
+      flex: 1;
+      min-width: 0;
+      padding: 32px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 32px;
+    }
+
+    .topbar h1 {
+      font-size: 26px;
+      color: #10284b;
+    }
+
+    .topbar p {
+      color: #77869b;
+      font-size: 13px;
+      margin-top: 7px;
+    }
+
+    .logout {
+      border: 0;
+      background: #e8edf5;
+      color: #173b68;
+      padding: 11px 17px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .welcome {
+      background: #173b68;
+      color: white;
+      padding: 27px;
+      border-radius: 13px;
+      margin-bottom: 25px;
+    }
+
+    .welcome h2 {
+      font-size: 21px;
+      margin-bottom: 9px;
+    }
+
+    .welcome p {
+      color: #d5e2f2;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .section-title {
+      font-size: 17px;
+      color: #173b68;
+      margin: 28px 0 15px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: white;
+      padding: 22px;
+      border-radius: 11px;
+      border: 1px solid #e4eaf2;
+    }
+
+    .card .symbol {
+      font-size: 25px;
+      margin-bottom: 15px;
+    }
+
+    .card h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
+      color: #173b68;
+    }
+
+    .card p {
+      color: #77869b;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .card a {
+      display: inline-block;
+      margin-top: 17px;
+      color: #2864a5;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 13px;
+    }
+
+    .account {
+      background: white;
+      padding: 22px;
+      border-radius: 11px;
+      border: 1px solid #e4eaf2;
+      margin-top: 25px;
+      line-height: 1.9;
+      font-size: 14px;
+    }
+
+    .account strong {
+      color: #173b68;
+    }
+
+    #loading {
+      padding: 50px;
+      text-align: center;
+      color: #77869b;
+    }
+
+    @media(max-width: 700px) {
+      .layout {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+      }
+
+      .brand {
+        margin-bottom: 20px;
+      }
+
+      .main {
+        padding: 20px;
+      }
+
+      .topbar h1 {
+        font-size: 21px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div id="loading">Memeriksa sesi pengguna...</div>
+
+<div class="layout" id="dashboard" hidden>
+
+  <aside class="sidebar">
+    <div class="brand">
+      IC HUB
+      <span>Insan Cendekia HUB</span>
+    </div>
+
+    <nav class="menu">
+      <div class="menu-label">Menu Utama</div>
+      <a href="dashboard.html" class="active">Dashboard</a>
+      <a href="index.html">Lihat Website</a>
+
+      <div class="menu-label">Manajemen Konten</div>
+      <a href="kelola-berita.html" id="menu-berita">Kelola Berita</a>
+      <a href="kelola-agenda.html" id="menu-agenda">Kelola Agenda</a>
+
+      <div class="menu-label" id="admin-label">Administrasi</div>
+      <a href="pengguna.html" id="menu-pengguna">Manajemen Pengguna</a>
+      <a href="organisasi.html" id="menu-organisasi">Organisasi</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+
+    <header class="topbar">
+      <div>
+        <h1>Dashboard</h1>
+        <p>Panel pengelolaan Insan Cendekia HUB</p>
+      </div>
+
+      <button class="logout" id="logout-button">
+        Keluar
+      </button>
+    </header>
+
+    <section class="welcome">
+      <h2 id="welcome-name">Selamat datang!</h2>
+      <p id="welcome-description">
+        Selamat bekerja di Insan Cendekia HUB.
+      </p>
+    </section>
+
+    <h2 class="section-title">Menu Pengelolaan</h2>
+
+    <section class="cards">
+
+      <article class="card">
+        <div class="symbol">📰</div>
+        <h3>Berita</h3>
+        <p>Mengelola informasi dan publikasi kegiatan sekolah.</p>
+        <a href="kelola-berita.html">Buka menu →</a>
+      </article>
+
+      <article class="card" id="agenda-card">
+        <div class="symbol">📅</div>
+        <h3>Agenda</h3>
+        <p>Mengelola jadwal kegiatan dan agenda sekolah.</p>
+        <a href="kelola-agenda.html">Buka menu →</a>
+      </article>
+
+      <article class="card" id="pengguna-card">
+        <div class="symbol">👥</div>
+        <h3>Pengguna</h3>
+        <p>Mengelola akun dan hak akses pengguna HUB.</p>
+        <a href="pengguna.html">Buka menu →</a>
+      </article>
+
+      <article class="card" id="organisasi-card">
+        <div class="symbol">🏫</div>
+        <h3>Organisasi</h3>
+        <p>Mengelola informasi organisasi sekolah.</p>
+        <a href="organisasi.html">Buka menu →</a>
+      </article>
+
+    </section>
+
+    <section class="account">
+      <h3>Informasi Akun</h3>
+      <p><strong>Nama:</strong> <span id="profile-name">-</span></p>
+      <p><strong>Email:</strong> <span id="profile-email">-</span></p>
+      <p><strong>Peran:</strong> <span id="profile-role">-</span></p>
+      <p><strong>Organisasi:</strong> <span id="profile-org">-</span></p>
+    </section>
+
+  </main>
+</div>
+
+<script type="module">
+  import { initializeApp } from
+    "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+
+  import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+  } from
+    "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+
+  import {
+    getFirestore,
+    doc,
+    getDoc
+  } from
+    "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+  // Gunakan konfigurasi Firebase yang sama dengan login.html
+  const firebaseConfig = {
+    apiKey: "AIzaSyD-Sa9r8UZWzosxkkzYa30N20vSY8UibvY",
+    authDomain: "insan-cendekia-hub.firebaseapp.com",
+    projectId: "insan-cendekia-hub",
+    storageBucket: "insan-cendekia-hub.firebasestorage.app",
+    messagingSenderId: "1003173757187",
+    appId: "1:1003173757187:web:448e259b3578ea8f24a936"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  const loading = document.getElementById("loading");
+  const dashboard = document.getElementById("dashboard");
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      window.location.replace("login.html");
+      return;
+    }
+
+    try {
+      const profilRef = doc(db, "pengguna", user.uid);
+      const profilSnapshot = await getDoc(profilRef);
+
+      if (!profilSnapshot.exists()) {
+        await signOut(auth);
+        window.location.replace("login.html");
+        return;
+      }
+
+      const profil = profilSnapshot.data();
+
+      const peranValid = ["admin", "redaksi", "organisasi"];
+
+      if (profil.aktif !== true || !peranValid.includes(profil.role)) {
+        await signOut(auth);
+        window.location.replace("login.html");
+        return;
+      }
+
+      // Menampilkan informasi pengguna
+      document.getElementById("welcome-name").textContent =
+        "Selamat datang, " + (profil.nama || "Pengguna HUB") + "!";
+
+      document.getElementById("profile-name").textContent =
+        profil.nama || "-";
+
+      document.getElementById("profile-email").textContent =
+        user.email || "-";
+
+      document.getElementById("profile-role").textContent =
+        profil.role;
+
+      document.getElementById("profile-org").textContent =
+        profil.organisasi || "Seluruh Sekolah";
+
+      const deskripsi = {
+        admin: "Kamu memiliki akses administrator untuk mengelola seluruh portal.",
+        redaksi: "Kamu dapat mengelola publikasi berita dan agenda sekolah.",
+        organisasi: "Kamu dapat mengelola konten organisasi yang menjadi tanggung jawabmu."
+      };
+
+      document.getElementById("welcome-description").textContent =
+        deskripsi[profil.role];
+
+      // Menyembunyikan menu khusus admin dari pengguna lain
+      if (profil.role !== "admin") {
+        document.getElementById("admin-label").hidden = true;
+        document.getElementById("menu-pengguna").hidden = true;
+        document.getElementById("menu-organisasi").hidden = true;
+        document.getElementById("pengguna-card").hidden = true;
+        document.getElementById("organisasi-card").hidden = true;
+      }
+
+      // Organisasi hanya mengelola berita organisasinya
+      if (profil.role === "organisasi") {
+        document.getElementById("menu-agenda").hidden = true;
+        document.getElementById("agenda-card").hidden = true;
+      }
+
+      loading.hidden = true;
+      dashboard.hidden = false;
+
+    } catch (error) {
+      console.error("Dashboard error:", error);
+      loading.textContent =
+        "Gagal memuat profil. Periksa koneksi atau konfigurasi Firebase.";
+    }
+  });
+
+  // Fungsi keluar
+  document.getElementById("logout-button").addEventListener("click", async () => {
+    try {
+      await signOut(auth);
+      window.location.replace("login.html");
+    } catch (error) {
+      console.error("Gagal keluar:", error);
+      alert("Tidak dapat keluar. Silakan coba lagi.");
+    }
+  });
+</script>
+
+</body>
+</html>
